@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LOST.Core.Repositories
 {
-    public interface IMaterialDocumentRepository
+    public interface IMaterialDocumentRepository : IRepository
     {
         Task<MaterialDocument> GetAsync(Guid id);
         Task<IEnumerable<MaterialDocument>> GetByMaterialAsync(string materialNumber);

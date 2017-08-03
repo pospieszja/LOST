@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LOST.Core.Repositories
 {
-    public interface ISectorRepository
+    public interface ISectorRepository : IRepository
     {
         Task<Sector> GetAsync(Guid id);
         Task<Sector> GetByNameAsync(string name);

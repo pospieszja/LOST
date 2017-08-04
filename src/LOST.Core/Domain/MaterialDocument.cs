@@ -6,21 +6,22 @@ namespace LOST.Core.Domain
 {
     public class MaterialDocument
     {
-        public Guid Id { get; protected set; }
+        public Guid Id { get; set; }
         public string MaterialNumber { get; protected set; }
         public string ProductionOrder { get; protected set; }
-        public int Quantity { get; set; }
+        public int Quantity { get; protected set; }
         public char MovementType { get; protected set; }
-        public Guid SectorId { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public Guid SectorId { get; protected set; }
+        public DateTime CreatedAt { get; private set; }
 
         protected MaterialDocument()
         {
 
         }
 
-        public MaterialDocument(string materialNumber, int quantity, Sector sector, string productionOrder = "")
+        public MaterialDocument(Guid documentId, string materialNumber, int quantity, Sector sector, string productionOrder = "")
         {
+            Id = documentId;
             SetMaterialNumber(materialNumber);
             SetQuantity(quantity);
             SetMovementType(quantity);

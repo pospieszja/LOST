@@ -11,6 +11,12 @@ namespace LOST.Infrastructure.Repositories
     {
         private static readonly ISet<Sector> _sectors = new HashSet<Sector>();
 
+        public InMemorySectorRepository()
+        {
+            _sectors.Add(new Sector(Guid.NewGuid(),"sektor A"));
+            _sectors.Add(new Sector(Guid.NewGuid(), "sektor B"));
+        }
+
         public async Task AddAsync(Sector sector)
         {
             _sectors.Add(sector);

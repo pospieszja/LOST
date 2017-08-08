@@ -32,7 +32,9 @@ namespace LOST.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ISectorRepository, InMemorySectorRepository>();
+            services.AddScoped<IMaterialDocumentRepository, InMemoryMaterialDocumentRepository>();
             services.AddScoped<ISectorService, SectorService>();
+            services.AddScoped<IStockService, StockService>();
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.Formatting = Formatting.Indented);
         }
 

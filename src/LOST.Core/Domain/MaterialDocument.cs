@@ -33,6 +33,11 @@ namespace LOST.Core.Domain
 
         private void SetProductionOrder(string productionOrder)
         {
+            if(String.IsNullOrWhiteSpace(productionOrder))
+            {
+                return;
+            }
+            
             if (productionOrder.Length != 9 || productionOrder.Substring(1, 3) != "160")
             {
                 throw new Exception($"{nameof(ProductionOrder)} property value is incorrect.");

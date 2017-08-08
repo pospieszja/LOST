@@ -22,15 +22,16 @@ namespace LOST.Infrastructure.Services
             var query = await _materialDocumentRepository.GetByMaterialAsync(materialNumber);
 
             var result = query
-                        .GroupBy(q => q.SectorId, q => q.MaterialNumber)
-                        .Select(g => new StockDto()
+                        .GroupBy(g => new { g.SectorId, g.MaterialNumber, g.ProductionOrder })
+                        .Select(x => new StockDto()
                         {
-                            MaterialNumber = g.Key.
-                            Quantity = g.Sum(i => i.Quantity)
+                            SectorName = x.Key.SectorId.ToString(),
+                            MaterialNumber = x.Key.MaterialNumber,
+                            ProductionOrder = x.Key.ProductionOrder,
+                            Quantity = x.Sum(i => i.Quantity)
                         });
 
-
-            return null;
+            return result;
         }
     }
 }

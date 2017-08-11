@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using LOST.Core.Repositories;
 using LOST.Infrastructure.Dto;
 using System.Linq;
+using LOST.Core.Domain;
 
 namespace LOST.Infrastructure.Services
 {
@@ -19,7 +20,7 @@ namespace LOST.Infrastructure.Services
         public async Task<IEnumerable<StockDto>> CheckStockAsync(string materialNumber = "", string sectorName = "", string productionOrder = "")
         {
             var sector = await _sectorRepository.GetByNameAsync(sectorName);
-            var query = await _materialDocumentRepository.GetByMaterialAsync(materialNumber);
+            var query = await _materialDocumentRepository.BrowseAsync(materialNumber,"",productionOrder);
 
             var result = query
                         .GroupBy(g => new { g.SectorId, g.MaterialNumber, g.ProductionOrder })
@@ -32,6 +33,22 @@ namespace LOST.Infrastructure.Services
                         });
 
             return result;
+        }
+
+        public async Task GoodsIssue(string materialNumber, int quantity, string sectorName, string productionOrder = "")
+        {
+            var sector = await _sectorRepository.GetByNameAsync(sectorName);
+
+            var materialDocument = new MaterialDocument(Guid.NewGuid(),materialNumber, quantity, sector.Id, productionOrder);
+            await _materialDocumentRepository.AddAsync(materialDocument);
+        }
+
+        public async Task GoodsReceipt(string materialNumber, int quantity, string sectorName, string productionOrder = "")
+        {
+            var sector = await _sectorRepository.GetByNameAsync(sectorName);
+            
+            var materialDocument = new MaterialDocument(Guid.NewGuid(),materialNumber, quantity, sector.Id, productionOrder);
+            await _materialDocumentRepository.AddAsync(materialDocument);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace LOST.Core.Domain
 
         }
 
-        public MaterialDocument(Guid documentId, string materialNumber, int quantity, Sector sector, string productionOrder = "")
+        public MaterialDocument(Guid documentId, string materialNumber, int quantity, Guid sectorId, string productionOrder = "")
         {
             Id = documentId;
             SetMaterialNumber(materialNumber);
@@ -27,18 +27,13 @@ namespace LOST.Core.Domain
             SetMovementType(quantity);
             SetProductionOrder(productionOrder);
 
-            SectorId = sector.Id;
+            SectorId = sectorId;
             CreatedAt = DateTime.UtcNow;
         }
 
-        private void SetProductionOrder(string productionOrder)
+        private void SetProductionOrder(string productionOrder = "")
         {
-            if(String.IsNullOrWhiteSpace(productionOrder))
-            {
-                return;
-            }
-            
-            if (productionOrder.Length != 9 || productionOrder.Substring(1, 3) != "160")
+            if (!String.IsNullOrEmpty(productionOrder) && (productionOrder.Length != 9 || productionOrder.Substring(1, 3) != "160"))
             {
                 throw new Exception($"{nameof(ProductionOrder)} property value is incorrect.");
             }
